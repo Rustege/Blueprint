@@ -1,0 +1,215 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+    </plugin-info>
+
+  
+    <resource type="i18n" name="i18n" location="com/atlassian/confluence/plugins/hello_blueprint/i18n"/>
+ 
+    <component key="hello-service" class="com.atlassian.confluence.plugins.hello_blueprint.DefaultHelloService">
+        <interface>com.atlassian.confluence.plugins.hello_blueprint.HelloService</interface>
+    </component>
+
+    <web-resource name="Resources" key="resources">
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <transformation extension="soy">
+            <transformer key="soyTransformer">
+                <functions>com.atlassian.confluence.plugins.soy:soy-core-functions</functions>
+            </transformer>
+        </transformation>
+
+        <resource type="download" name="main.css" location="com/atlassian/confluence/plugins/hello_blueprint/css/main.css" />
+        <resource type="download" name="templates-soy.js" location="com/atlassian/confluence/plugins/hello_blueprint/soy/templates.soy" />
+        <resource type="download" name="town-blueprint-wizard.js" location="com/atlassian/confluence/plugins/hello_blueprint/js/hello-blueprint-wizard.js" />
+
+        <dependency>com.atlassian.confluence.plugins.confluence-create-content-plugin:resources</dependency>
+        <dependency>com.atlassian.confluence.plugins.confluence-create-content-plugin:space-blueprints</dependency>
+        <dependency>com.atlassian.confluence.plugins.confluence-space-ia:spacesidebar</dependency>
+        <context>atl.general</context>
+        <context>atl.admin</context>
+    </web-resource>
+
+   
+    <!--
+       The following modules are for a third distinct Blueprint.
+
+       This blueprint has child Blueprints, which create child Blueprint pages when the "root" Blueprint is created.
+       The child Blueprints must have content-templates that can be rendered with the context from any Wizard the root
+       Blueprint provides, plus any individual context-providers attached to those templates.
+
+       Note that the child Blueprints do not have associated Web-items - they are not displayed in the Create dialog.
+    -->
+
+    <content-template key="hierarchy-blueprint-content-template"
+            i18n-name-key="town.confluence.hierarchy.blueprint.content.template.name">
+        <description key="town.confluence.hierarchy.blueprint.content.template.description"/>
+        <resource name="template" type="download"
+                location="com/atlassian/confluence/plugins/hello_blueprint/xml/hierarchy-content-template.xml"/>
+        <context-provider class="com.atlassian.confluence.plugins.hello_blueprint.HierarchyContextProvider"/>
+    </content-template>
+ 
+    <content-template key="hierarchy-child-a-content-template"
+            i18n-name-key="town.confluence.hierarchy.child.a.blueprint.content.template.name">
+        <description key="town.confluence.hierarchy.child.a.blueprint.content.template.description"/>
+        <resource name="template" type="download"
+                location="com/atlassian/confluence/plugins/hello_blueprint/xml/hierarchy-child-a-content-template.xml"/>
+        <context-provider class="com.atlassian.confluence.plugins.hello_blueprint.HierarchyChildAContextProvider"/>
+    </content-template>
+
+    <content-template key="hierarchy-child-b-content-template"
+            i18n-name-key="town.confluence.hierarchy.child.b.blueprint.content.template.name">
+        <description key="town.confluence.hierarchy.child.b.blueprint.content.template.description"/>
+        <resource name="template" type="download"
+                location="com/atlassian/confluence/plugins/hello_blueprint/xml/hierarchy-child-b-content-template.xml"/>
+    </content-template>
+		<content-template key="2020-roadmap" i18n-name-key="town.confluence.hierarchy.child.2020.roadmap.template.name">
+        <description key="town.confluence.hierarchy.child.2020.roadmap.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/2020-roadmap.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.RoadmapContextProvider"/>
+	</content-template>
+	<content-template key="customers" i18n-name-key="town.confluence.hierarchy.child.customers.template.name">
+        <description key="town.confluence.hierarchy.child.customers.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/customers.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.CustomersContextProvider"/>
+	</content-template>
+	<content-template key="decision-register" i18n-name-key="town.confluence.hierarchy.child.decision.register.template.name">
+        <description key="town.confluence.hierarchy.child.decision.register.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/decision-register.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.DecisionRegisterContextProvider"/>
+	</content-template>
+	<content-template key="document-library" i18n-name-key="town.confluence.hierarchy.child.document.library.template.name">
+        <description key="town.confluence.hierarchy.child.document.library.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/document-library.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.DocumentLibraryContextProvider"/>
+	</content-template>
+	<content-template key="final-deliverables" i18n-name-key="town.confluence.hierarchy.child.final.deliverables.template.name">
+        <description key="town.confluence.hierarchy.child.final.deliverables.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/final-deliverables.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.FinalDeliverablesContextProvider"/>
+	</content-template>
+	<content-template key="mobilization-playbook-artifacts" i18n-name-key="town.confluence.hierarchy.child.mobilization.playbook.artifacts.template.name">
+        <description key="town.confluence.hierarchy.child.mobilization.playbook.artifacts.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/mobilization-playbook-artifacts.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.MobilizationPlaybookArtifactsContextProvider"/>
+</content-template>
+<content-template key="design" i18n-name-key="town.confluence.hierarchy.child.design.template.name">
+        <description key="town.confluence.hierarchy.child.design.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/design.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.DesignContextProvider"/>
+</content-template>
+<content-template key="prepare" i18n-name-key="town.confluence.hierarchy.child.prepare.template.name">
+        <description key="town.confluence.hierarchy.child.prepare.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/prepare.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.PrepareContextProvider"/>
+</content-template>
+<content-template key="sprint-zero" i18n-name-key="town.confluence.hierarchy.child.sprint.zero.template.name">
+        <description key="town.confluence.hierarchy.child.sprint.zero.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/sprint-zero.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.SprintZeroContextProvider"/>
+</content-template>
+<content-template key="stabilize" i18n-name-key="town.confluence.hierarchy.child.stabilize.template.name">
+        <description key="town.confluence.hierarchy.child.stabilize.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/stabilize.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.StabilizeContextProvider"/>
+</content-template>
+<content-template key="sustain" i18n-name-key="town.confluence.hierarchy.child.sustain.template.name">
+        <description key="town.confluence.hierarchy.child.sustain.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/sustain.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.SustainContextProvider"/>
+</content-template>
+<content-template key="org-charts" i18n-name-key="town.confluence.hierarchy.child.org.charts.template.name">
+        <description key="town.confluence.hierarchy.child.org.charts.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/org-charts.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.OrgChartsContextProvider"/>
+</content-template>
+<content-template key="quarterly-business-reviews" i18n-name-key="town.confluence.hierarchy.child.quarterly.business.reviews.template.name">
+        <description key="town.confluence.hierarchy.child.quarterly.business.reviews.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/quarterly-business-reviews.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.QuarterlyBusinessReviewsContextProvider"/>
+</content-template>
+<content-template key="eat-ems-m3-s3-scrum-at-scale-meeting" i18n-name-key="town.confluence.hierarchy.child.eat.ems.m3.s3.scrum.at.scale.meeting.template.name">
+        <description key="town.confluence.hierarchy.child.eat.ems.m3.s3.scrum.at.scale.meeting.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/eat-ems-m3-s3-scrum-at-scale-meeting.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.EatScaleMeetingContextProvider"/>
+</content-template>
+<content-template key="how-to-articles" i18n-name-key="town.confluence.hierarchy.child.how.to.articles.template.name">
+        <description key="town.confluence.hierarchy.child.how.to.articles.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/how-to-articles.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.HowToArticlesContextProvider"/>
+</content-template>
+<content-template key="how-to-example" i18n-name-key="town.confluence.hierarchy.child.how.to.example.template.name">
+        <description key="town.confluence.hierarchy.child.how.to.example.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/how-to-example.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.HowToExampleContextProvider"/>
+</content-template>
+<content-template key="meeting-notes" i18n-name-key="town.confluence.hierarchy.child.meeting.notes.template.name">
+        <description key="town.confluence.hierarchy.child.meeting.notes.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/meeting-notes.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.MeetingNotesContextProvider"/>
+</content-template>
+<content-template key="sample-2020-06-18-meeting-notes" i18n-name-key="town.confluence.hierarchy.child.sample.2020.06.18.meeting.notes.template.name">
+        <description key="town.confluence.hierarchy.child.sample.2020.06.18.meeting.notes.content.template.description"/>
+        <resource name="template" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/xml/sample-2020-06-18-meeting-notes.xml"/>
+		<context-provider class="com.atlassian.confluence.plugins.hello_blueprint.SampleMeetingNotesContextProvider"/>
+</content-template>
+    <web-item key="hello-space-blueprint-item" i18n-name-key="town.confluence.hello.space.blueprint.name" section="system.create.space.dialog/content">
+        <description key="town.confluence.hello.blueprint.description"/>
+        <resource name="icon" type="download" location="com/atlassian/confluence/plugins/hello_blueprint/images/preview.png"/>
+        <param name="blueprintKey" value="my-space-blueprint"/>
+    </web-item>
+
+    <space-blueprint key="my-space-blueprint" i18n-name-key="town.confluence.hello.space.blueprint.name" category="Town">
+        <content-template ref="hierarchy-blueprint-content-template">
+            <content-template ref="2020-roadmap"/>
+			<content-template ref="customers"/>
+			<content-template ref="decision-register"/>
+			<content-template ref="document-library">
+			<content-template ref="final-deliverables"/>
+			</content-template>
+			<content-template ref="eat-ems-m3-s3-scrum-at-scale-meeting"/>
+			<content-template ref="how-to-articles">
+			<content-template ref="how-to-example"/>
+			</content-template>
+			<content-template ref="meeting-notes">
+			<content-template ref="sample-2020-06-18-meeting-notes"/>
+			</content-template>
+			<content-template ref="mobilization-playbook-artifacts">
+			<content-template ref="design"/>
+			<content-template ref="prepare"/>
+			<content-template ref="sprint-zero"/>
+			<content-template ref="stabilize"/>
+			<content-template ref="sustain"/>
+			</content-template>
+			<content-template ref="org-charts"/>
+			<content-template ref="quarterly-business-reviews"/>
+		</content-template>
+        
+
+
+        <space-creation-steps>
+            <space-creation-step ref="com.atlassian.confluence.plugins.confluence-create-content-plugin:restrictedUserSpaceCreationStep"/>
+            <space-creation-step ref="com.atlassian.confluence.plugins.confluence-create-content-plugin:watchSpaceCreationStep"/>
+        </space-creation-steps>
+
+        <dialog-wizard key="my-space-blueprint-wizard">
+            <dialog-page id="spaceBasicDetailsId"
+                         template-key="Confluence.Templates.Blueprints.CreateSpace.createSpaceForm"
+                         title-key="town.confluence.hello.blueprint.dialog.choose.title"
+                         description-header-key="town.confluence.hello.blueprint.dialog.choose.heading"
+                         description-content-key="town.confluence.hello.blueprint.dialog.choose.description"/>
+        </dialog-wizard>
+    </space-blueprint>
+
+    <theme key="my-theme-key" name="Simple Space Theme" class="com.atlassian.confluence.themes.BasicTheme">
+        <description>A simple example theme for all</description>
+        <param name="includeClassicStyles" value="false"/>
+        <resource type="download" name="default-theme.css" location="/includes/css/default-theme.css">
+            <param name="source" value="webContext"/>
+        </resource>
+    </theme>
+
+</atlassian-plugin>
